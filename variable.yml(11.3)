@@ -1,0 +1,3 @@
+dvd_dir: "/dvd"
+root_doc: "/var/www/pm"
+http_port: 8085
