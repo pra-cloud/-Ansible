@@ -1,0 +1,37 @@
+- hosts: web_server
+  vars_files:
+          var.yml
+  tasks:
+  - name: "install httpd "
+    package:
+       name: "httpd"
+       state: present
+
+  - name: "creating the root dir(folder)"
+    file:
+       state: directory
+       path: "{{ root_doc }}"
+  - name: "configure the config file for document root and port number"
+    template:
+       dest: "/etc/httpd/conf.d/pm.conf"
+       src: "/root/task/pm.conf"
+    notify:
+       - restart_httpd
+
+  - name: "copying file"
+    copy:
+       dest: "{{root_doc}}/index.html"
+       content: "hey Welocme to the Ansible World this is task 11.3 of arth!! now port number is 8085"
+    register: x
+
+  - name: "for start the service"
+    service:
+       name: "httpd"
+       state: started
+    when: x.changed == true
+
+  handlers:
+    - name: restart_httpd
+      service:
+              name: "httpd"
+              state: restarted
