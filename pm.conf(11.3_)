@@ -1,0 +1,5 @@
+Listen {{http_port}}
+
+<virtualHost {{ansible_facts['default_ipv4']['address']}}:{{http_port}}>
+DocumentRoot {{root_doc}}
+</VirtualHost>
